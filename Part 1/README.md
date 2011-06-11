@@ -15,20 +15,6 @@ Insert this code in your Arduino IDE, and upload it to your board and open up yo
 If you don’t have a photocell or other sensor to read from, you can comment out the serial.println(sensorValue); line, and remove the comments on the Serial.println(“test”); line. That way you will still be posting some data for the Titanium app to see.
 
 
-/* AnalogReadSerial Reads an analog input on pin 0, prints the result to the serial monitor
-This example code is in the public domain. */
-
-void setup() {
- Serial.begin(9600);
-}
-
-void loop() {
- int sensorValue = analogRead(A0);
- Serial.println(sensorValue);
-//Serial.println('test');
- delay(1000);
-}
-
 ----------------
 ##json.php
 
@@ -44,79 +30,7 @@ To update this fine replace the $serial->deviceSet(” “); value with your Ard
 
 Currently the json.php file is outputting the A0 value along with the current time in a json encoded array. We later use jQuery to load this array into a table in our titanium project.
 
-<?php
-<pre>header('Content-type: application/json');
-$serial = new phpSerial();
-
-//Specify the serial port to use...
-$serial->deviceSet('/dev/cu.usbserial-A800etjJ');
-
-// leave this alone
-$serial->confBaudRate(9600); //Baud rate: 9600
-$serial->confParity('none');
-$serial->confCharacterLength(8);
-$serial->confStopBits(1);
-$serial->confFlowControl('none');
-$serial->deviceOpen();
-
-sleep(2);
-$read = $serial->readPort();
-// trim it down, there was an '\n' at the end of it.
-$read =  (substr($read, 0, -2));
-
-$serial->deviceClose();
-
-date_default_timezone_set('America/New_York');
-
-$time = date('D, d M Y H:i:s O');
-$json = '{
- 'serialdata': [
- { 'A0':''.$read.'',
-   'date':''.$time.''
- }
- ]
-}';
-echo $json;
-?>
 ----------------
 ##index.html
 
 In our index, we are using jQuery to call the json.php. It then parses the results from the Arduino’s response and adds them to our data table. Also note that in Titanium, we have to initialize the php_serial.class.php in a script tag rather then include it in the header of the json.php.
-
-<html>
-<head>
- <title>Serial Monitor</title>
-
- <!-- blueprint css -->
- <link rel='stylesheet' href='screen.css' type='text/css' media='screen' title='no title' charset='utf-8'>
-
- <!-- jQuery Minified -->
- <script src='jquery-1.5.min.js' type='text/javascript'> </script>
-
- <!-- Initialize php serial class -->
- <script src='php_serial.class.php' type='text/php' ></script>
-</head>
-
- <body>
-  <table id='data' border='0' >
-  <thead>    <th>A 0</th> <th>date</th> </thead>
-  <tbody>
-    <!-- content will go here -->
-  </tbody>
- </table>
-<script>
- $(document).ready(function(){
-  var checkStatus = function() {
-   $.getJSON('json.php', function(data){
-    $.each(data.serialdata, function(i,serial){
-     var tblRow = '<tr>'+'<td>'+serial.A0+'</td>'+'<td>'+serial.date+'</td>'+'</tr>';
-     $(tblRow).appendTo('#data tbody');
-    });
-   });
-  setTimeout(checkStatus, 60000); // repeat every 60 seconds
- };
- checkStatus(); // on startup, call the get check status function
- });
- </script>
-</body>
-</html>
