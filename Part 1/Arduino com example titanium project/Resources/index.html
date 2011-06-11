@@ -1,0 +1,37 @@
+<html>
+<head>
+	<title>Serial Monitor</title>
+
+	<!-- blueprint css -->
+	<link rel="stylesheet" href="screen.css" type="text/css" media="screen" title="no title" charset="utf-8"> 
+
+	<!-- jQuery Minified -->
+	<script src="jquery-1.5.min.js" type="text/javascript"> </script>
+
+	<!-- Initialize php serial class -->
+	<script src="php_serial.class.php" type="text/php" ></script>
+</head>
+
+	<body>
+	<table id="data" border="0" >
+		<thead>	<th>A 0</th> <th>date</th> </thead>
+		<tbody>
+			<!-- content will go here -->
+		</tbody>
+	</table>
+	<script>
+	$(document).ready(function(){
+		var checkStatus = function() {
+		 	$.getJSON("json.php", function(data){
+						$.each(data.serialdata, function(i,serial){
+							var tblRow = "<tr>"+"<td>"+serial.A0+"</td>"+"<td>"+serial.date+"</td>"+"</tr>";
+							$(tblRow).appendTo("#data tbody");
+						});
+					});
+			setTimeout(checkStatus, 60000); // repeat every 60 seconds 
+		    };
+		checkStatus(); // on startup, call the get check status function
+		});
+	</script>
+	</body>
+	</html>
