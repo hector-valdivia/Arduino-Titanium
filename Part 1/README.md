@@ -2,10 +2,6 @@ Arduino & Titanium communication via PHP Part 1
 =============================================
 
 
-Default setup
-----------------
-
-
 ## AnalogReadSerial.pde
 
 In the setup() function we’re going to start the serial communications at 9600. Then our main programming goes into the loop() function. In the loop we read the A0 pin, print it to the serial, and wait for 1000ms.
