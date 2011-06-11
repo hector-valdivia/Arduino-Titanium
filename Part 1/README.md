@@ -15,7 +15,6 @@ Insert this code in your Arduino IDE, and upload it to your board and open up yo
 If you don’t have a photocell or other sensor to read from, you can comment out the serial.println(sensorValue); line, and remove the comments on the Serial.println(“test”); line. That way you will still be posting some data for the Titanium app to see.
 
 
-----------------
 ##json.php
 
 This is the most important file in the titanium project. It’s the bridge between your app and the Arduino, it contains the settings you need to update for this application to return the contents of the your Arduinos serial output. 
@@ -30,7 +29,6 @@ To update this fine replace the $serial->deviceSet(” “); value with your Ard
 
 Currently the json.php file is outputting the A0 value along with the current time in a json encoded array. We later use jQuery to load this array into a table in our titanium project.
 
-----------------
 ##index.html
 
 In our index, we are using jQuery to call the json.php. It then parses the results from the Arduino’s response and adds them to our data table. Also note that in Titanium, we have to initialize the php_serial.class.php in a script tag rather then include it in the header of the json.php.
