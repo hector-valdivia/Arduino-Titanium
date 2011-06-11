@@ -29,7 +29,7 @@ void loop() {
  delay(1000);
 }
 
-
+----------------
 ##json.php
 
 This is the most important file in the titanium project. It’s the bridge between your app and the Arduino, it contains the settings you need to update for this application to return the contents of the your Arduinos serial output. 
@@ -78,7 +78,7 @@ $json = '{
 }';
 echo $json;
 ?>
-
+----------------
 ##index.html
 
 In our index, we are using jQuery to call the json.php. It then parses the results from the Arduino’s response and adds them to our data table. Also note that in Titanium, we have to initialize the php_serial.class.php in a script tag rather then include it in the header of the json.php.
