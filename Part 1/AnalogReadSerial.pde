@@ -14,3 +14,20 @@ void loop() {
   Serial.println(sensorValue);
   delay(1000);
 }
+
+
+/*
+	the second example can be used if you do not have a input sensor avaliable.
+*/
+
+
+/*
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  Serial.println("NO FORMAT"); 
+  delay(1000);
+}
+*/
